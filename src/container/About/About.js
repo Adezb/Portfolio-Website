@@ -1,20 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
 import { AppWrap } from "../../wrapper";
-import { urlFor, client } from "../../client";
+import { images } from "../../constants";
 import "./About.css";
 
+const abouts = [
+  {
+    title: "Frontend Developer",
+    description:
+      "I am a frontend developer with passion for building beautiful and functional websites and applications.",
+    imgUrl: images.frontend,
+  },
+  {
+    title: "Web Designer",
+    description: "I am passionate about designing the web interface.",
+    imgUrl: images.webdesign,
+  },
+  {
+    title: "Graphic Designer",
+    description: "I design good graphics.",
+    imgUrl: images.graphicdsgn,
+  },
+];
+
 const About = () => {
-  const [abouts, setAbouts] = useState([]);
-
-  useEffect(() => {
-    const query = '*[_type == "abouts"]';
-
-    client.fetch(query).then((data) => setAbouts(data));
-  }, []);
-
   return (
     <>
       <Helmet>
@@ -34,7 +45,7 @@ const About = () => {
             className="app__profile-item"
             key={about.title + index}
           >
-            <img src={urlFor(about.imgUrl)} alt={about.title} />
+            <img src={about.imgUrl} alt={about.title} />
             <h2 className="bold-text" style={{ marginTop: 20 }}>
               {about.title}
             </h2>

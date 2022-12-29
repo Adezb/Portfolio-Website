@@ -1,32 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 import { AppWrap } from "../../wrapper";
-import { urlFor, client } from "../../client";
+import { images } from "../../constants";
 
 import "./Testimonial.css";
 
+const testimonials = [
+  {
+    name: "John Doe",
+    company: "Microsoft",
+    imgUrl: images.css,
+    feedback:
+      "I am very happy with the service. I am very happy with the service. I am very happy with the service.",
+  },
+  {
+    name: "Temitope Ogunleye",
+    company: "Flutterwave",
+    imgUrl: images.flutter,
+    feedback:
+      "I am very happy with the service. I am very happy with the service. I am very happy with the service.",
+  },
+  {
+    name: "Adebayo Temitope",
+    company: "Google",
+    imgUrl: "",
+    feedback: "I am very happy with the service",
+  },
+  {
+    name: "Temitope Adebayo",
+    company: "Facebook",
+    imgUrl: "",
+    feedback: "I am very happy with the service",
+  },
+];
+
+const brands = [
+  {
+    imgUrl: images.adidas,
+    title: "Adidas",
+  },
+  {
+    imgUrl: images.amazon,
+    title: "Amazon",
+  },
+  {
+    imgUrl: images.bolt,
+    title: "Bolt",
+  },
+];
+
 const Testimonials = () => {
-  const [brands, setBrands] = useState([]);
-  const [testimonials, setTestimonials] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    const query = '*[_type == "testimonials"]';
-    const brandsQuery = '*[_type == "brands"]';
-
-    client.fetch(query).then((data) => {
-      // console.log(data);
-      setTestimonials(data);
-    });
-
-    client.fetch(brandsQuery).then((data) => {
-      // console.log(data);
-      setBrands(data);
-    });
-  }, []);
 
   const handleClick = (index) => {
     setActiveIndex(index);
@@ -42,7 +69,7 @@ const Testimonials = () => {
       {testimonials.length && (
         <>
           <div className="app__testimonial-item app__flex">
-            <img src={urlFor(test.imageurl)} alt="testimonial" />
+            <img src={test.imgUrl} alt="testimonial" />
             <div className="app__testimonial-content">
               <p className="p-text">{test.feedback}</p>
               <div>
@@ -84,7 +111,7 @@ const Testimonials = () => {
             transition={{ duration: 0.5, type: "tween" }}
             key={brand._id}
           >
-            <img src={urlFor(brand.imgUrl)} alt={brand.name} />
+            <img src={brand.imgUrl} alt={brand.title} />
           </motion.div>
         ))}
       </div>

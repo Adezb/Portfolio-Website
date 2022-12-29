@@ -1,43 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import emailjs from "@emailjs/browser";
 
 import { images } from "../../constants";
 import { AppWrap } from "../../wrapper";
-import { client } from "../../client";
 
 import "./Footer.css";
 
 const Footer = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const form = useRef();
 
-  const { name, email, message } = formData;
+  const [isFormSubmitted, setIsFormSubmitted] = useState("");
 
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_x5u1m7w",
+        "template_bixs2tq",
+        form.current,
+        "l9eft18Vm-J5qX0QU"
+      )
+      .then(
+        (result) => {
+          setIsFormSubmitted(result.text);
+        },
+        (error) => {
+          setIsFormSubmitted(error.text);
+        }
+      );
   };
 
-  const handleSubmit = () => {
-    setLoading(true);
-
-    const contact = {
-      _type: "contact",
-      name: name,
-      email: email,
-      message: message,
-    };
-
-    client.create(contact).then(() => {
-      setLoading(false);
-      setIsFormSubmitted(true);
-    });
-  };
   return (
     <>
       <Helmet>
@@ -62,15 +56,17 @@ const Footer = () => {
       </div>
 
       {!isFormSubmitted ? (
-        <div className="app__footer-form app__flex">
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="app__footer-form app__flex"
+        >
           <div className="app__flex">
             <input
               className="p-text"
               type="text"
               placeholder="Your Name"
-              name="name"
-              value={name}
-              onChange={handleChangeInput}
+              name="user_name"
             />
           </div>
           <div className="app__flex">
@@ -78,24 +74,18 @@ const Footer = () => {
               className="p-text"
               type="email"
               placeholder="Your Email"
-              name="email"
-              value={email}
-              onChange={handleChangeInput}
+              name="user_email"
             />
           </div>
           <div>
             <textarea
               className="p-text"
               placeholder="Your Message"
-              value={message}
               name="message"
-              onChange={handleChangeInput}
             />
           </div>
-          <button type="button" className="p-text" onClick={handleSubmit}>
-            {loading ? "Sending" : "Send Message"}{" "}
-          </button>
-        </div>
+          <input type="submit" className="p-text" value="Send Message" />
+        </form>
       ) : (
         <div>
           <h3 className="head-text">Thank you for reaching out</h3>
@@ -105,4 +95,4 @@ const Footer = () => {
   );
 };
 
-export default AppWrap(Footer, "contact", "app__primarybg");
+export default AppWrap(Footer, "contact", "app__neutralbg");

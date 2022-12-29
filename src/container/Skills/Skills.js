@@ -1,29 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
 import { AppWrap } from "../../wrapper";
-import { urlFor, client } from "../../client";
+import { images } from "../../constants";
 
 import "./Skills.css";
 
+const skills = [
+  {
+    title: "React",
+    bgColor: "",
+    icon: images.react,
+  },
+  {
+    title: "Vue",
+    bgColor: "",
+    icon: images.vue,
+  },
+  {
+    title: "JavaScript",
+    bgColor: "",
+    icon: images.javascript,
+  },
+  {
+    title: "HTML",
+    bgColor: "",
+    icon: images.html,
+  },
+  {
+    title: "CSS",
+    bgColor: "",
+    icon: images.css,
+  },
+  {
+    title: "Git",
+    bgColor: "",
+    icon: images.git,
+  },
+];
+
 const Skills = () => {
-  const [skills, setSkills] = useState([]);
-  // const [experiences, setExperiences] = useState([]);
-
-  useEffect(() => {
-    // const query = '*[_type == "experiences"]';
-    const querySkills = '*[_type == "skills"]';
-
-    // client.fetch(query).then((data) => {
-    //   setExperiences(data);
-    // });
-
-    client.fetch(querySkills).then((data) => {
-      setSkills(data);
-    });
-  }, []);
-
   return (
     <>
       <Helmet>
@@ -39,15 +56,15 @@ const Skills = () => {
               whileInView={{ opacity: [0, 1] }}
               transition={{ duration: 0.5 }}
               className="app__skills-item app__flex"
-              key={skill.name}
+              key={skill.title}
             >
               <div
                 className="app__flex"
                 style={{ backgroundColor: skill.bgColor }}
               >
-                <img src={urlFor(skill.icon)} alt={skill.name} />
+                <img src={skill.icon} alt={skill.title} />
               </div>
-              <p className="p-text">{skill.name}</p>
+              <p className="p-text">{skill.title}</p>
             </motion.div>
           ))}
         </motion.div>
