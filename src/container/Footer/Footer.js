@@ -11,9 +11,12 @@ const Footer = () => {
   const form = useRef();
 
   const [isFormSubmitted, setIsFormSubmitted] = useState("");
+  const [isText, setIsText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setLoading(true);
 
     emailjs
       .sendForm(
@@ -43,8 +46,8 @@ const Footer = () => {
       <div className="app__footer-cards">
         <div className="app__footer-card">
           <img src={images.mail} alt="email" />
-          <a href="mailto:temitopeceo@gmail.com" className="p-text">
-            temitopeceo@gmail.com
+          <a href="mailto:cektopventures@gmail.com" className="p-text">
+            cektopventures@gmail.com
           </a>
         </div>
         <div className="app__footer-card">
@@ -67,6 +70,7 @@ const Footer = () => {
               type="text"
               placeholder="Your Name"
               name="user_name"
+              required
             />
           </div>
           <div className="app__flex">
@@ -75,16 +79,26 @@ const Footer = () => {
               type="email"
               placeholder="Your Email"
               name="user_email"
+              required
             />
           </div>
           <div>
             <textarea
               className="p-text"
               placeholder="Your Message"
+              value={isText}
+              onChange={(e) => setIsText(e.target.value)}
               name="message"
             />
           </div>
-          <input type="submit" className="p-text" value="Send Message" />
+          <button
+            disabled={!isText}
+            type="submit"
+            className="p-text"
+            value="Send Message"
+          >
+            {loading ? "Sending..." : "Send Message"}
+          </button>
         </form>
       ) : (
         <div>
