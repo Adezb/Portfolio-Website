@@ -22,6 +22,8 @@ import git from "../assets/git.png";
 import html from "../assets/html.png";
 import javascript from "../assets/javascript.png";
 import flutter from "../assets/flutter.png";
+import counterlogo from "../assets/counterlogo.png";
+import comingsoon from "../assets/coming-soon.png";
 
 const images = {
   bgIMG,
@@ -48,6 +50,8 @@ const images = {
   html,
   javascript,
   flutter,
+  counterlogo,
+  comingsoon,
 };
 
 export default images;
